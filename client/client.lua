@@ -1,6 +1,5 @@
 --ESX  = nil
 local open = false
--- TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 ESX = exports["es_extended"]:getSharedObject()
 
 local LaundererMenu = RageUI.CreateMenu("Geldwäsche", "Geld waschen")
@@ -20,7 +19,7 @@ LaundererMenu.Closed = function()
     open = false
 end 
 
-local Percentage = 0.80 -- Fr: Pourcentage sur le prix final, ici le blanchisseur prend 20% (1-0.80 = 0.20) // En: Percentage of the final price here the laundryman takes 20% (1-0.80 = 0.20)
+local Percentage = 0.80
 local Progress = nil 
 local PercentagePannel = 0.0
 
@@ -97,7 +96,7 @@ function OpenLaundererMenu()
 end
 
 LaundererPosition = {
-    {pos = vector3(1122.4825,-3194.7829,-41.40)}, -- Fr: Configuration de la position // En: Position configuration
+    {pos = vector3(1122.4825,-3194.7829,-41.40)},
 }
 
 CreateThread(function()
