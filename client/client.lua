@@ -49,7 +49,7 @@ function OpenLaundererMenu()
                             LaundererMenu.Closable = false
                         end
                     })
-                    .
+                            
                     RageUI.Separator("Ihr schmutziges Geld: ~g~$" .. ESX.PlayerData.accounts[3].money)
                     RageUI.SliderPanel(SliderPannel.Index, SliderPannel.Minimum, "Menge", ESX.PlayerData.accounts[3].money, {
                         onSliderChange = function(Index)
@@ -66,7 +66,7 @@ function OpenLaundererMenu()
                             ClearPedTasks(PlayerPedId())
                             FreezeEntityPosition(PlayerPedId(), false)
                             Wait(50)
-                            TriggerServerEvent('AddJasonMoney', FinalPercentage, SliderPannel.Index)
+                            TriggerServerEvent('AddMoneyWash', FinalPercentage, SliderPannel.Index)
                             PercentagePannel = 0.0
                             Progress = false
                             LaundererMenu.Closable = true
