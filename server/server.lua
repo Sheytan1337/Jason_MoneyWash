@@ -1,8 +1,8 @@
 ESX = nil
 ESX = exports["es_extended"]:getSharedObject()
 
-RegisterNetEvent('AddJasonMoney')
-AddEventHandler('AddJasonMoney', function(Money, BlackMoney)
+RegisterNetEvent('AddMoneyWash')
+AddEventHandler('AddMoneyWash', function(Money, BlackMoney)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local GetBlackMoney = xPlayer.getAccount('black_money').money
