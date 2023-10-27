@@ -1,14 +1,17 @@
-ESX  = nil
+--ESX  = nil
 local open = false
+-- TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 ESX = exports["es_extended"]:getSharedObject()
 
 local LaundererMenu = RageUI.CreateMenu("Geldwäsche", "Geld waschen")
 LaundererMenu.EnableMouse = true
 LaundererMenu:DisplayPageCounter(false)
 
+
 local SliderPannel = {
     Minimum = 0,
     Index = 1,
+    Maximum = 1000000,
 }
 
 LaundererMenu.Closed = function()  
@@ -17,7 +20,7 @@ LaundererMenu.Closed = function()
     open = false
 end 
 
-local Percentage = 0.80
+local Percentage = 0.80 -- Fr: Pourcentage sur le prix final, ici le blanchisseur prend 20% (1-0.80 = 0.20) // En: Percentage of the final price here the laundryman takes 20% (1-0.80 = 0.20)
 local Progress = nil 
 local PercentagePannel = 0.0
 
@@ -33,7 +36,10 @@ function OpenLaundererMenu()
         Citizen.CreateThread(function ()
             while open do 
                 RageUI.IsVisible(LaundererMenu, function()
-                    -- Start Code...
+                    -- Debug-Log für den Geldbetrag
+                    -- print("Debug: Geldbetrag = $" .. ESX.PlayerData.accounts[2].money)
+
+                    
                     RageUI.Button('Geld zum waschen', false , {RightLabel = "$"..SliderPannel.Index}, true , {})
                     RageUI.Button('Auszahlungsbetrag', false, {RightLabel = "$"..Round(SliderPannel.Index * Percentage), Color = { HightLightColor = { 0, 255, 0, 150 }, BackgroundColor = { 38, 85, 150, 160 } }}, true, {
                         onSelected = function() 
@@ -49,14 +55,20 @@ function OpenLaundererMenu()
                             LaundererMenu.Closable = false
                         end
                     })
-                            
-                    RageUI.Separator("Ihr schmutziges Geld: ~g~$" .. ESX.PlayerData.accounts[3].money)
-                    RageUI.SliderPanel(SliderPannel.Index, SliderPannel.Minimum, "Menge", ESX.PlayerData.accounts[3].money, {
-                        onSliderChange = function(Index)
-                            SliderPannel.Index = Index
-                        end
-                    }, 1)
 
+                    -- Vorheriger Code...
+                    for i = 1, #ESX.PlayerData.accounts, 1 do
+                        if ESX.PlayerData.accounts[i].name == 'black_money'  then
+                            RageUI.Separator("Ihr schmutziges Geld: ~g~$" .. ESX.Math.GroupDigits(ESX.PlayerData.accounts[i].money))
+                            RageUI.SliderPanel(SliderPannel.Index, SliderPannel.Minimum, "Menge", SliderPannel.Maximum, {
+                                onSliderChange = function(Index)
+                                    SliderPannel.Index = Index
+                                end
+                            }, 1)
+                        end
+                    end
+
+                    -- Weiterer Code...
                     if Progress == true then
                         RageUI.PercentagePanel(PercentagePannel, 'Geld wird gewaschen', '', '', {}, 2)
                         if PercentagePannel < 1.0 then
@@ -73,15 +85,19 @@ function OpenLaundererMenu()
                             LaundererMenu.Closed()
                         end
                     end
+
                 end)
+
                 Wait(0)
             end
         end)
+
+
     end
 end
 
 LaundererPosition = {
-    {pos = vector3(1122.4825,-3194.7829,-41.40)},
+    {pos = vector3(1122.4825,-3194.7829,-41.40)}, -- Fr: Configuration de la position // En: Position configuration
 }
 
 CreateThread(function()
