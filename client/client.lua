@@ -59,7 +59,7 @@ function OpenLaundererMenu()
                     for i = 1, #ESX.PlayerData.accounts, 1 do
                         if ESX.PlayerData.accounts[i].name == 'black_money'  then
                             RageUI.Separator("Ihr schmutziges Geld: ~g~$" .. ESX.Math.GroupDigits(ESX.PlayerData.accounts[i].money))
-                            RageUI.SliderPanel(SliderPannel.Index, SliderPannel.Minimum, "Menge", SliderPannel.Maximum, {
+                            RageUI.SliderPanel(SliderPannel.Index, SliderPannel.Minimum, "Menge", ESX.PlayerData.accounts[i].money, {
                                 onSliderChange = function(Index)
                                     SliderPannel.Index = Index
                                 end
